@@ -18,6 +18,8 @@
   .tab.active{background:#f6f8fb;border-color:#d8dde6;color:#032d60;margin-bottom:-1px;
     box-shadow:inset 0 3px 0 #0176d3}
   .tab:focus-visible{outline:2px solid #1b96ff;outline-offset:2px}
+  .tab-home{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px}
+  .tab-home .home-glyph{display:block;width:18px;height:18px}
   .panes{flex:1;min-height:0;position:relative}
   .pane{display:none;position:absolute;inset:0}
   .pane.active{display:block}
@@ -27,12 +29,196 @@
 </head>
 <body>
 <div class="tabbar" role="tablist" aria-label="Guides">
-<button class="tab active" role="tab" aria-selected="true" aria-controls="pane-0" id="tab-0" data-idx="0">Creating a Trailhead Account</button>
-<button class="tab" role="tab" aria-selected="false" aria-controls="pane-1" id="tab-1" data-idx="1">Agentforce Labs</button>
-<button class="tab" role="tab" aria-selected="false" aria-controls="pane-2" id="tab-2" data-idx="2">Tegna Workshop Reference Guide</button>
+<button class="tab tab-home active" role="tab" aria-selected="true" aria-controls="pane-0" id="tab-0" data-idx="0" title="Home" aria-label="Home"><svg class="home-glyph" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.6 10 3l7 5.6"/><path d="M4.8 10v6.2a.8.8 0 0 0 .8.8h8.8a.8.8 0 0 0 .8-.8V10"/><path d="M8.2 17.2v-4.1h3.6v4.1"/></svg></button>
+<button class="tab" role="tab" aria-selected="false" aria-controls="pane-1" id="tab-1" data-idx="1">Creating a Trailhead Account</button>
+<button class="tab" role="tab" aria-selected="false" aria-controls="pane-2" id="tab-2" data-idx="2">Agentforce Labs</button>
+<button class="tab" role="tab" aria-selected="false" aria-controls="pane-3" id="tab-3" data-idx="3">Tegna Workshop Reference Guide</button>
 </div>
 <div class="panes">
 <div class="pane active" id="pane-0" role="tabpanel" aria-labelledby="tab-0"><template class="src"><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TEGNA Agent Workshop &amp; POV</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:#fff;color:#0b1b2b;
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+
+  /* ---- hero ---- */
+  .hero{position:relative;overflow:hidden;background:#06121f;
+    min-height:clamp(340px,52vh,560px);display:flex;align-items:flex-end}
+  /* still frame from the same video, shown if the embed is blocked or offline */
+  .hero-media{position:absolute;inset:0;
+    background:#06121f url("https://i.vimeocdn.com/video/2020795809-31269e19ff4c28427b23d86b06fdae0ea3384fdc32fa3f3c41ae73b1cba1b430-d_1280?region=us") center/cover no-repeat}
+  .hero-media iframe{position:absolute;top:50%;left:50%;
+    width:100%;height:56.25vw;min-height:100%;min-width:177.78vh;
+    transform:translate(-50%,-50%);border:0;pointer-events:none}
+  .hero-scrim{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(6,18,31,.30) 0%,rgba(6,18,31,.55) 45%,rgba(6,18,31,.88) 100%)}
+  .hero-inner{position:relative;width:100%;max-width:1100px;margin:0 auto;padding:0 clamp(20px,5vw,56px) clamp(28px,5vh,54px)}
+  .hero h1{margin:0;color:#fff;font-weight:700;letter-spacing:-.02em;
+    font-size:clamp(28px,5.2vw,54px);line-height:1.1;text-wrap:balance;
+    text-shadow:0 2px 24px rgba(0,0,0,.45)}
+  .hero .date{margin:14px 0 0;color:#dce6f2;font-size:clamp(14px,1.7vw,20px);font-weight:500;
+    letter-spacing:.01em;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+  .hero .rule{width:60px;height:4px;background:#0176d3;border-radius:2px;margin:0 0 20px}
+
+  /* ---- contents ---- */
+  .contents{max-width:1100px;margin:0 auto;padding:clamp(28px,5vw,48px) clamp(20px,5vw,56px) 56px}
+  .contents h2{margin:0 0 18px;font-size:13px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;color:#5b6b7d}
+  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:0;padding:0;list-style:none}
+  .card{display:flex;flex-direction:column;gap:7px;width:100%;text-align:left;
+    padding:18px 20px;background:#d3e7fb;border:1px solid #a5cbee;border-radius:12px;
+    font:inherit;color:#032d60;cursor:pointer;
+    transition:border-color .14s,background .14s,transform .14s,box-shadow .14s}
+  .card:hover{background:#bfdbf8;border-color:#0176d3;transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(3,45,96,.14)}
+  .card:focus-visible{outline:2px solid #1b96ff;outline-offset:2px}
+  .card .num{font-size:11px;font-weight:700;letter-spacing:.08em;color:#0176d3}
+  .card .name{font-size:17px;font-weight:650;line-height:1.3;letter-spacing:-.01em}
+  .card .desc{font-size:13.5px;color:#31527a;line-height:1.45}
+  .card .go{margin-top:2px;font-size:12.5px;font-weight:600;color:#0176d3}
+  .foot{max-width:1100px;margin:0 auto;padding:0 clamp(20px,5vw,56px) 40px;
+    color:#8494a5;font-size:12px}
+  @media (prefers-reduced-motion:reduce){
+    .hero-media iframe{display:none}
+    .card:hover{transform:none}
+  }
+  @media print{
+    .hero{min-height:0}.hero-media iframe{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-media">
+    <iframe
+      src="https://player.vimeo.com/video/1088549739?h=40bd177a6f&amp;api=1&amp;controls=0&amp;autoplay=1&amp;muted=1&amp;background=1&amp;loop=1&amp;byline=0&amp;title=0&amp;quality=720p"
+      allow="autoplay; fullscreen; picture-in-picture"
+      referrerpolicy="strict-origin-when-cross-origin"
+      title="TEGNA brand montage" aria-hidden="true" tabindex="-1"></iframe>
+  </div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner">
+    <div class="rule"></div>
+    <h1>Tegna Agent Workshop &amp; POV</h1>
+    <p class="date">September 21, 2026</p>
+  </div>
+</header>
+
+<main class="contents">
+  <h2>In this package</h2>
+  <ul class="cards">
+    <li>
+      <button type="button" class="card" data-tab="1">
+        <span class="num">01</span>
+        <span class="name">Creating a Trailhead Account</span>
+        <span class="desc">How to create a Trailhead account — step-by-step guide.</span>
+        <span class="go">Open tab &rarr;</span>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="card" data-tab="2">
+        <span class="num">02</span>
+        <span class="name">Agentforce Labs</span>
+        <span class="desc">Overview and getting started — the home of what's next from Agentforce.</span>
+        <span class="go">Open tab &rarr;</span>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="card" data-tab="3">
+        <span class="num">03</span>
+        <span class="name">Tegna Workshop Reference Guide</span>
+        <span class="desc">Enable Agentforce &amp; build a Meeting Prep Agent. ~75 min, no code required.</span>
+        <span class="go">Open tab &rarr;</span>
+      </button>
+    </li>
+  </ul>
+</main>
+
+<p class="foot">Background footage from tegna.com.</p>
+
+<script>
+// The cards live inside an iframe, so ask the shell page to switch tabs.
+document.querySelectorAll('.card').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var i = parseInt(btn.getAttribute('data-tab'), 10);
+    if (!isNaN(i) && window.parent !== window) {
+      window.parent.postMessage({ type: 'go-tab', index: i }, '*');
+    }
+  });
+});
+</script>
+<script>
+/* --- in-page navigation fix (added) ---
+   This document is rendered inside a srcdoc iframe, which has no base URL of
+   its own: href="#phase5" resolves against the PARENT document, so a plain
+   click navigates the frame to the combined file and nests the whole shell.
+   Intercept hash links and scroll manually instead. Smooth scrolling is also
+   unreliable inside a frame (Chrome skips the animation in some cases), so a
+   watchdog forces an instant jump if the smooth scroll never moves. */
+(function(){
+  function findTarget(id){
+    if (!id) return null;
+    return document.getElementById(id) ||
+           document.getElementsByName(id)[0] || null;
+  }
+
+  function absTop(el){
+    return Math.round(el.getBoundingClientRect().top + window.pageYOffset);
+  }
+
+  function goTo(el){
+    var start = window.pageYOffset;
+    var target = absTop(el);
+    if (Math.abs(target - start) < 2) return;   // already there
+
+    try { el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    catch (e) { el.scrollIntoView(true); }
+
+    // If the smooth scroll never started, jump.
+    setTimeout(function(){
+      if (Math.abs(window.pageYOffset - start) < 2) {
+        window.scrollTo(0, absTop(el));
+      }
+    }, 250);
+  }
+
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') return;
+
+    e.preventDefault();
+    var id = href.slice(1);
+    try { id = decodeURIComponent(id); } catch (err) {}
+
+    if (!id) { window.scrollTo(0, 0); return; }
+    var t = findTarget(id);
+    if (t) goTo(t);
+  }, true);
+
+  // Send real outbound links to a new tab rather than replacing this frame.
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h = a.getAttribute('href') || '';
+    if (/^(https?:)?\/\//i.test(h) && !a.target) {
+      a.target = '_blank';
+      a.rel = (a.rel ? a.rel + ' ' : '') + 'noopener';
+    }
+  });
+})();
+</script>
+</body>
+</html>
+</template><iframe class="frame" title="Cover" allow="clipboard-write; clipboard-read; autoplay; fullscreen; picture-in-picture"></iframe></div>
+<div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1"><template class="src"><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -345,10 +531,70 @@
     <p>Guide created on September 17, 2026 — Screenshots reflect the Trailhead signup experience as of this date.</p>
   </footer>
 
+<script>
+/* --- in-page navigation fix (added) ---
+   This document is rendered inside a srcdoc iframe, which has no base URL of
+   its own: href="#phase5" resolves against the PARENT document, so a plain
+   click navigates the frame to the combined file and nests the whole shell.
+   Intercept hash links and scroll manually instead. Smooth scrolling is also
+   unreliable inside a frame (Chrome skips the animation in some cases), so a
+   watchdog forces an instant jump if the smooth scroll never moves. */
+(function(){
+  function findTarget(id){
+    if (!id) return null;
+    return document.getElementById(id) ||
+           document.getElementsByName(id)[0] || null;
+  }
+
+  function absTop(el){
+    return Math.round(el.getBoundingClientRect().top + window.pageYOffset);
+  }
+
+  function goTo(el){
+    var start = window.pageYOffset;
+    var target = absTop(el);
+    if (Math.abs(target - start) < 2) return;   // already there
+
+    try { el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    catch (e) { el.scrollIntoView(true); }
+
+    // If the smooth scroll never started, jump.
+    setTimeout(function(){
+      if (Math.abs(window.pageYOffset - start) < 2) {
+        window.scrollTo(0, absTop(el));
+      }
+    }, 250);
+  }
+
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') return;
+
+    e.preventDefault();
+    var id = href.slice(1);
+    try { id = decodeURIComponent(id); } catch (err) {}
+
+    if (!id) { window.scrollTo(0, 0); return; }
+    var t = findTarget(id);
+    if (t) goTo(t);
+  }, true);
+
+  // Send real outbound links to a new tab rather than replacing this frame.
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h = a.getAttribute('href') || '';
+    if (/^(https?:)?\/\//i.test(h) && !a.target) {
+      a.target = '_blank';
+      a.rel = (a.rel ? a.rel + ' ' : '') + 'noopener';
+    }
+  });
+})();
+</script>
 </body>
 </html>
-</template><iframe class="frame" title="Creating a Trailhead Account"></iframe></div>
-<div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1"><template class="src"><!DOCTYPE html>
+</template><iframe class="frame" title="Creating a Trailhead Account" allow="clipboard-write; clipboard-read"></iframe></div>
+<div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2"><template class="src"><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -694,10 +940,70 @@
     }, true);
   });
 </script>
+<script>
+/* --- in-page navigation fix (added) ---
+   This document is rendered inside a srcdoc iframe, which has no base URL of
+   its own: href="#phase5" resolves against the PARENT document, so a plain
+   click navigates the frame to the combined file and nests the whole shell.
+   Intercept hash links and scroll manually instead. Smooth scrolling is also
+   unreliable inside a frame (Chrome skips the animation in some cases), so a
+   watchdog forces an instant jump if the smooth scroll never moves. */
+(function(){
+  function findTarget(id){
+    if (!id) return null;
+    return document.getElementById(id) ||
+           document.getElementsByName(id)[0] || null;
+  }
+
+  function absTop(el){
+    return Math.round(el.getBoundingClientRect().top + window.pageYOffset);
+  }
+
+  function goTo(el){
+    var start = window.pageYOffset;
+    var target = absTop(el);
+    if (Math.abs(target - start) < 2) return;   // already there
+
+    try { el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    catch (e) { el.scrollIntoView(true); }
+
+    // If the smooth scroll never started, jump.
+    setTimeout(function(){
+      if (Math.abs(window.pageYOffset - start) < 2) {
+        window.scrollTo(0, absTop(el));
+      }
+    }, 250);
+  }
+
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') return;
+
+    e.preventDefault();
+    var id = href.slice(1);
+    try { id = decodeURIComponent(id); } catch (err) {}
+
+    if (!id) { window.scrollTo(0, 0); return; }
+    var t = findTarget(id);
+    if (t) goTo(t);
+  }, true);
+
+  // Send real outbound links to a new tab rather than replacing this frame.
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h = a.getAttribute('href') || '';
+    if (/^(https?:)?\/\//i.test(h) && !a.target) {
+      a.target = '_blank';
+      a.rel = (a.rel ? a.rel + ' ' : '') + 'noopener';
+    }
+  });
+})();
+</script>
 </body>
 </html>
-</template><iframe class="frame" title="Agentforce Labs"></iframe></div>
-<div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2"><template class="src"><!DOCTYPE html>
+</template><iframe class="frame" title="Agentforce Labs" allow="clipboard-write; clipboard-read"></iframe></div>
+<div class="pane" id="pane-3" role="tabpanel" aria-labelledby="tab-3"><template class="src"><!DOCTYPE html>
 <!-- v2 2026-09-17 -->
 <html lang="en">
 <head>
@@ -716,6 +1022,45 @@
   --color-sf-purple: #7526C2;
   --color-border: #C9C9C9;
 }
+</style>
+<script>
+function copyText(btn) {
+  const block = btn.closest('.copyable');
+  const text = block.querySelector('.copy-content').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'Copied!';
+    btn.classList.add('bg-green-600');
+    btn.classList.remove('bg-sf-blue', 'hover:bg-blue-700');
+    setTimeout(function() {
+      btn.textContent = 'Copy';
+      btn.classList.remove('bg-green-600');
+      btn.classList.add('bg-sf-blue', 'hover:bg-blue-700');
+    }, 2000);
+  });
+}
+</script>
+<style>
+  /* --- inline copy icons (added) --- */
+  .copy-icon{display:inline-flex;align-items:center;justify-content:center;
+    vertical-align:baseline;margin-left:5px;padding:2px;
+    width:20px;height:20px;flex:0 0 auto;
+    color:#0176D3;background:transparent;border:0;border-radius:4px;
+    opacity:.55;cursor:pointer;transition:opacity .12s,background .12s,color .12s}
+  .copy-icon:hover{opacity:1;background:#EEF4FF}
+  .copy-icon:focus-visible{opacity:1;outline:2px solid #1B96FF;outline-offset:1px}
+  .copy-icon svg{display:block;width:13px;height:13px;pointer-events:none}
+  .copy-icon .ci-check{display:none}
+  .copy-icon.copied{opacity:1;color:#2E844A;background:#EEF7F0}
+  .copy-icon.copied .ci-copy{display:none}
+  .copy-icon.copied .ci-check{display:block}
+  .copy-icon.failed{opacity:1;color:#BA0517;background:#FDEEEE}
+  /* corner icon on the full-width paste blocks (replaces the blue buttons) */
+  .copy-icon-block{position:absolute;top:6px;right:6px;z-index:10;
+    width:24px;height:24px;margin-left:0;opacity:.8;
+    background:#fff;border:1px solid #E5E7EB;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  .copy-icon-block:hover{background:#EEF4FF;border-color:#0176D3}
+  .copy-icon-block svg{width:14px;height:14px}
+  @media print{.copy-icon{display:none}}
 </style>
 </head>
 <body class="bg-white text-gray-800 font-sans leading-relaxed">
@@ -942,9 +1287,9 @@
 
       <p><strong>Step 5.3</strong> — Fill in the template details:</p>
       <ul class="ml-4 list-none space-y-1">
-        <li>• <strong>Template Name:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA Meeting Prep</code></li>
+        <li>• <strong>Template Name:</strong> <code id="cv-5-3-template-name" class="bg-gray-100 px-1 rounded">TEGNA Meeting Prep</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-5-3-template-name" title="Copy" aria-label="Copy template name"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
         <li>• <strong>API Name:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA_Meeting_Prep</code></li>
-        <li>• <strong>Description:</strong> Generates a structured meeting preparation brief for TEGNA Account Executives</li>
+        <li>• <strong>Description:</strong> <code id="cv-5-3-description" class="bg-gray-100 px-1 rounded">Generates a structured meeting preparation brief for TEGNA Account Executives</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-5-3-description" title="Copy" aria-label="Copy description"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
         <li>• <strong>Object:</strong> Select <code class="bg-gray-100 px-1 rounded">Account</code> — this anchors the template to Account records</li>
       </ul>
 
@@ -953,37 +1298,11 @@
         <figcaption class="text-xs text-gray-500 mt-2 text-center">Template configuration with Account object selected — this enables Record Snapshot and Related List merge fields</figcaption>
       </figure>
 
-      <p class="mt-3"><strong>Step 5.4</strong> — Add 3 merge fields using <strong>"Add Resource"</strong>:</p>
-      <p class="ml-4 text-gray-600">These pull live data from the Account record and its related lists — no manual text input needed.</p>
+      <p class="mt-3"><strong>Step 5.4</strong> — Copy and paste the full prompt below into the prompt template editor:</p>
 
-      <table class="w-full border border-border rounded text-sm mt-2">
-        <thead class="bg-sf-light">
-          <tr>
-            <th class="text-left p-2 border-b border-border font-semibold">#</th>
-            <th class="text-left p-2 border-b border-border font-semibold">Merge Field</th>
-            <th class="text-left p-2 border-b border-border font-semibold">Type</th>
-            <th class="text-left p-2 border-b border-border font-semibold">What It Pulls</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b border-gray-100"><td class="p-2">1</td><td class="p-2"><code class="text-xs">{!$RecordSnapshot:Account.snapshot}</code></td><td class="p-2">Record Snapshot</td><td class="p-2 text-gray-600">Account name, industry, revenue, ownership info</td></tr>
-          <tr class="border-b border-gray-100"><td class="p-2">2</td><td class="p-2"><code class="text-xs">{!$RelatedList:Account.Contacts.Records}</code></td><td class="p-2">Related List</td><td class="p-2 text-gray-600">All contacts related to the account</td></tr>
-          <tr><td class="p-2">3</td><td class="p-2"><code class="text-xs">{!$RelatedList:Account.Opportunities.Records}</code></td><td class="p-2">Related List</td><td class="p-2 text-gray-600">All opportunities for the account</td></tr>
-        </tbody>
-      </table>
-
-      <div class="bg-blue-50 border-l-4 border-blue-300 p-3 text-blue-800 text-xs mt-3">
-        <strong>Key difference from Free Text inputs:</strong> Record Snapshot and Related List merge fields automatically pull live data from the Account record. The agent doesn't need to be told what to look up — it's already grounded in real Salesforce data.
-      </div>
-
-      <figure class="my-4">
-        <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/c1f2d187-ad7c-475f-b270-491a8e9bb195.png" alt="Prompt with merge fields" class="w-full rounded-lg border border-border shadow-sm">
-        <figcaption class="text-xs text-gray-500 mt-2 text-center">Prompt template workspace showing the merge fields in the prompt body</figcaption>
-      </figure>
-
-      <p><strong>Step 5.5</strong> — Write the prompt. Copy and paste the full prompt below, which already includes the merge field placeholders in the right locations:</p>
-
-      <div class="bg-gray-50 border border-gray-200 rounded p-4 text-xs font-mono whitespace-pre-wrap mt-2 max-h-96 overflow-y-auto">You are a sales preparation assistant for an Account Executive at TEGNA, a US local broadcast media company that sells television and digital advertising through local station brands.
+      <div class="copyable relative bg-gray-50 border border-gray-200 rounded mt-2 max-h-96 overflow-y-auto">
+        <button type="button" class="copy-icon copy-icon-block" onclick="copyValue(this)" data-copy-target="cv-block-1" title="Copy" aria-label="Copy text"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button>
+        <div id="cv-block-1" class="copy-content p-4 text-xs font-mono whitespace-pre-wrap">You are a sales preparation assistant for an Account Executive at TEGNA, a US local broadcast media company that sells television and digital advertising through local station brands.
 
 Business context you must assume:
 - The account is an advertiser or a media buying agency, not a consumer or viewer.
@@ -1031,17 +1350,46 @@ Three to five suggested talking points or questions, each tied to a specific fac
 - Write in plain, direct language. No filler, no restating the headings, no closing summary.
 - Keep the whole brief under 400 words.
 - Do not include record IDs or field API names in the output.</div>
+      </div>
+
+      <p><strong>Step 5.5</strong> — Replace the 3 merge field placeholders with actual resources:</p>
+      <p class="ml-4 text-gray-600">The prompt text contains 3 placeholders that need to be replaced with live data resources. For each one, delete the placeholder text and re-insert it using <strong>Insert Resource</strong> → <strong>Account</strong> → select the resource name:</p>
+
+      <table class="w-full border border-border rounded text-sm mt-2">
+        <thead class="bg-sf-light">
+          <tr>
+            <th class="text-left p-2 border-b border-border font-semibold">#</th>
+            <th class="text-left p-2 border-b border-border font-semibold">Placeholder to Replace</th>
+            <th class="text-left p-2 border-b border-border font-semibold">Insert Resource → Account →</th>
+            <th class="text-left p-2 border-b border-border font-semibold">What It Pulls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-100"><td class="p-2">1</td><td class="p-2"><code class="text-xs">{!$RecordSnapshot:Account.snapshot}</code></td><td class="p-2 font-semibold">Record Snapshot</td><td class="p-2 text-gray-600">Account name, industry, revenue, ownership info</td></tr>
+          <tr class="border-b border-gray-100"><td class="p-2">2</td><td class="p-2"><code class="text-xs">{!$RelatedList:Account.Contacts.Records}</code></td><td class="p-2 font-semibold">Contacts (Related List)</td><td class="p-2 text-gray-600">All contacts related to the account</td></tr>
+          <tr><td class="p-2">3</td><td class="p-2"><code class="text-xs">{!$RelatedList:Account.Opportunities.Records}</code></td><td class="p-2 font-semibold">Opportunities (Related List)</td><td class="p-2 text-gray-600">All opportunities for the account</td></tr>
+        </tbody>
+      </table>
+
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-3 text-amber-800 text-xs mt-3 mb-3">
+        <strong>Important — Verify merge fields appear as highlighted pills:</strong> After replacing each placeholder, confirm it appears as a <strong>highlighted pill</strong> in the editor — not as plain text. If it still shows as plain text, delete it and re-insert using <strong>Insert Resource</strong> → <strong>Account</strong> → select the resource name.
+      </div>
+
+      <div class="bg-blue-50 border-l-4 border-blue-300 p-3 text-blue-800 text-xs mt-3">
+        <strong>Key difference from Free Text inputs:</strong> Record Snapshot and Related List merge fields automatically pull live data from the Account record. The agent doesn't need to be told what to look up — it's already grounded in real Salesforce data.
+      </div>
+
+      <figure class="my-4">
+        <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/c1f2d187-ad7c-475f-b270-491a8e9bb195.png" alt="Prompt with merge fields" class="w-full rounded-lg border border-border shadow-sm">
+        <figcaption class="text-xs text-gray-500 mt-2 text-center">Prompt template workspace showing the merge fields as highlighted pills in the prompt body</figcaption>
+      </figure>
 
       <figure class="my-4">
         <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/d9a05eb0-f68c-4320-b5f7-f4432a0e9c68.png" alt="Merge fields visible in prompt" class="w-full rounded-lg border border-border shadow-sm">
-        <figcaption class="text-xs text-gray-500 mt-2 text-center">The three merge fields appear as highlighted pills in the prompt — Record Snapshot (Account) and two Related Lists (Contacts, Opportunities)</figcaption>
+        <figcaption class="text-xs text-gray-500 mt-2 text-center">The three merge fields appear as highlighted pills — Record Snapshot (Account) and two Related Lists (Contacts, Opportunities)</figcaption>
       </figure>
 
       <p><strong>Step 5.6</strong> — Select <strong>HTML</strong> as the response format (bottom of the prompt editor).</p>
-
-      <div class="bg-amber-50 border-l-4 border-amber-400 p-3 text-amber-800 text-xs mt-2 mb-3">
-        <strong>Important — Replace placeholders with merge field inputs:</strong> After pasting the prompt, make sure the three merge field placeholders (<code class="bg-amber-100 px-1 rounded">{!$RecordSnapshot:Account.snapshot}</code>, <code class="bg-amber-100 px-1 rounded">{!$RelatedList:Account.Contacts.Records}</code>, <code class="bg-amber-100 px-1 rounded">{!$RelatedList:Account.Opportunities.Records}</code>) appear as <strong>highlighted pills</strong> in the editor — not as plain text. If they show as plain text, delete them and re-insert using the <strong>Add Resource</strong> button from Step 5.4.
-      </div>
 
       <p><strong>Step 5.7</strong> — Preview and test the prompt:</p>
       <p class="ml-4 text-gray-600">Click <strong>Preview</strong> (or the play button) → Select a test Account record (e.g., <code class="bg-gray-100 px-1 rounded">Acme Partners</code>) → Click <strong>Run</strong> to see the generated brief. Verify that the output includes the TEGNA-specific sections: Where Things Stand, Spend Picture, Who You're Talking To, Open Business, Watch Out For, and Openers.</p>
@@ -1089,7 +1437,7 @@ Three to five suggested talking points or questions, each tied to a specific fac
 
       <p><strong>Step 6.4</strong> — Name the agent:</p>
       <ul class="ml-4 list-none space-y-1">
-        <li>• <strong>Agent Name:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA Meeting Prep Agent</code></li>
+        <li>• <strong>Agent Name:</strong> <code id="cv-6-4-agent-name" class="bg-gray-100 px-1 rounded">TEGNA Meeting Prep Agent</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-6-4-agent-name" title="Copy" aria-label="Copy agent name"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
         <li>• <strong>Developer Name:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA_Meeting_Prep_Agent</code></li>
       </ul>
       <p class="ml-4 mt-2 text-gray-600">Click <strong>Create</strong></p>
@@ -1101,7 +1449,10 @@ Three to five suggested talking points or questions, each tied to a specific fac
 
       <p><strong>Step 6.5</strong> — Edit the Agent Description:</p>
       <p class="ml-4 text-gray-600">Click on the agent node in the canvas to edit the description. Update it to:</p>
-      <div class="bg-gray-50 border border-gray-200 rounded p-3 text-xs font-mono ml-4">Helps TEGNA Account Executives prepare for client meetings by generating structured pre-meeting briefs with account details, contacts, opportunities, and actionable talking points.</div>
+      <div class="copyable relative bg-gray-50 border border-gray-200 rounded ml-4">
+        <button type="button" class="copy-icon copy-icon-block" onclick="copyValue(this)" data-copy-target="cv-block-2" title="Copy" aria-label="Copy text"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button>
+        <div id="cv-block-2" class="copy-content p-3 text-xs font-mono">Helps TEGNA Account Executives prepare for client meetings by generating structured pre-meeting briefs with account details, contacts, opportunities, and actionable talking points.</div>
+      </div>
 
       <figure class="my-4">
         <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/54b2ef3c-7299-45ae-8296-8362ca214ff4.png" alt="Agent description updated" class="w-full rounded-lg border border-border shadow-sm">
@@ -1112,9 +1463,9 @@ Three to five suggested talking points or questions, each tied to a specific fac
       <p class="ml-4 text-gray-600">In the Agent Router node, click <strong>"Add Route To"</strong> → Select <strong>"Subagent"</strong></p>
 
       <ul class="ml-4 list-none space-y-1 mt-2">
-        <li>• <strong>Subagent Name:</strong> <code class="bg-gray-100 px-1 rounded">Meeting Prep Brief</code></li>
-        <li>• <strong>Description:</strong> Generates a structured pre-meeting brief for an Account Executive, summarizing account details, contacts, opportunities, and actionable talking points using the TEGNA Meeting Prep prompt template.</li>
-        <li>• <strong>Instructions:</strong> Add instructions for the subagent to use the TEGNA Meeting Prep prompt template when given an account name</li>
+        <li>• <strong>Subagent Name:</strong> <code id="cv-6-6-subagent-name" class="bg-gray-100 px-1 rounded">Meeting Prep Brief</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-6-6-subagent-name" title="Copy" aria-label="Copy subagent name"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
+        <li>• <strong>Description:</strong> <code id="cv-6-6-description" class="bg-gray-100 px-1 rounded">Generates a structured pre-meeting brief for an Account Executive, summarizing account details, contacts, opportunities, and actionable talking points using the TEGNA Meeting Prep prompt template.</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-6-6-description" title="Copy" aria-label="Copy description"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
+        <li>• <strong>Instructions:</strong> <code id="cv-6-6-instructions" class="bg-gray-100 px-1 rounded">Add instructions for the subagent to use the TEGNA Meeting Prep prompt template when given an account name</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-6-6-instructions" title="Copy" aria-label="Copy instructions"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
       </ul>
 
       <figure class="my-4">
@@ -1127,7 +1478,30 @@ Three to five suggested talking points or questions, each tied to a specific fac
         <figcaption class="text-xs text-gray-500 mt-2 text-center">The Meeting Prep Brief subagent now appears in the agent topology alongside Agent Router, General FAQ, Off Topic, and Ambiguous Question</figcaption>
       </figure>
 
-      <p><strong>Step 6.7</strong> — Commit the agent version:</p>
+      <p><strong>Step 6.7</strong> — Add 3 actions to the Meeting Prep Brief subagent:</p>
+      <p class="ml-4 text-gray-600">Click the <strong>Meeting Prep Brief</strong> subagent to open it → Go to its <strong>Actions</strong> tab → Click <strong>"Add Action"</strong> and add the following 3 actions:</p>
+
+      <table class="w-full border border-border rounded text-sm mt-2">
+        <thead class="bg-sf-light">
+          <tr>
+            <th class="text-left p-2 border-b border-border font-semibold">#</th>
+            <th class="text-left p-2 border-b border-border font-semibold">Action Name</th>
+            <th class="text-left p-2 border-b border-border font-semibold">Type</th>
+            <th class="text-left p-2 border-b border-border font-semibold">What It Does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-gray-100"><td class="p-2">1</td><td class="p-2 font-semibold">Account Meeting Brief</td><td class="p-2">Prompt Template</td><td class="p-2 text-gray-600">Links to the TEGNA Meeting Prep prompt template created in Phase 5 — this is the action that generates the brief</td></tr>
+          <tr class="border-b border-gray-100"><td class="p-2">2</td><td class="p-2 font-semibold">Identify Record by Name</td><td class="p-2">OOTB (Record Lookup)</td><td class="p-2 text-gray-600">Resolves the account name from the user's query to an actual Account record</td></tr>
+          <tr><td class="p-2">3</td><td class="p-2 font-semibold">Identify Object by Name</td><td class="p-2">OOTB</td><td class="p-2 text-gray-600">Identifies the Salesforce object type referenced in the user's request</td></tr>
+        </tbody>
+      </table>
+
+      <div class="bg-amber-50 border-l-4 border-amber-400 p-3 text-amber-800 text-xs mt-3">
+        <strong>Critical step!</strong> Without these 3 actions, the subagent won't know how to generate the meeting brief. The <strong>Account Meeting Brief</strong> action links to your prompt template, while the two "Identify" actions (OOTB) help the agent resolve the account name and object type from the user's natural language query.
+      </div>
+
+      <p><strong>Step 6.8</strong> — Commit the agent version:</p>
       <p class="ml-4 text-gray-600">Click <strong>"Commit Version"</strong> (top-right) to create a snapshot of your agent configuration. This creates Version 1 (Committed).</p>
 
       <figure class="my-4">
@@ -1154,7 +1528,7 @@ Three to five suggested talking points or questions, each tied to a specific fac
       <p class="ml-4 text-gray-600">Setup → Quick Find: <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sf-blue">Permission Sets</code> → Click <strong>New</strong></p>
 
       <ul class="ml-4 list-none space-y-1 mt-2">
-        <li>• <strong>Label:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA Meeting Prep Agent Access</code></li>
+        <li>• <strong>Label:</strong> <code id="cv-7-1-label" class="bg-gray-100 px-1 rounded">TEGNA Meeting Prep Agent Access</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-7-1-label" title="Copy" aria-label="Copy label"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
         <li>• <strong>API Name:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA_Meeting_Prep_Agent_Access</code></li>
       </ul>
       <p class="ml-4 mt-2 text-gray-600">Click <strong>Save</strong></p>
@@ -1216,7 +1590,10 @@ Three to five suggested talking points or questions, each tied to a specific fac
       </figure>
 
       <p><strong>Step 8.3</strong> — Test with a sample utterance:</p>
-      <div class="bg-gray-50 border border-gray-200 rounded p-3 text-sm font-mono ml-4">Give me an account brief for Acme</div>
+      <div class="copyable relative bg-gray-50 border border-gray-200 rounded ml-4">
+        <button type="button" class="copy-icon copy-icon-block" onclick="copyValue(this)" data-copy-target="cv-block-3" title="Copy" aria-label="Copy text"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button>
+        <div id="cv-block-3" class="copy-content p-3 text-sm font-mono">Give me an account brief for Acme</div>
+      </div>
 
       <figure class="my-4">
         <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/c5216fee-5c08-41f6-becb-2167a3a1a23f.png" alt="Agent response" class="w-full rounded-lg border border-border shadow-sm">
@@ -1304,7 +1681,10 @@ Three to five suggested talking points or questions, each tied to a specific fac
       </figure>
 
       <p><strong>Step 9.4</strong> — In the "Create a Subagent" dialog, enter the description:</p>
-      <div class="bg-gray-50 border border-gray-200 rounded p-3 font-mono text-xs ml-4 leading-relaxed">Delegates account brief and meeting preparation requests to the Tegna Meeting Prep Agent. Use this subagent when users ask for account briefs, meeting prep, or account summaries for any account.</div>
+      <div class="copyable relative bg-gray-50 border border-gray-200 rounded ml-4">
+        <button type="button" class="copy-icon copy-icon-block" onclick="copyValue(this)" data-copy-target="cv-block-4" title="Copy" aria-label="Copy text"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button>
+        <div id="cv-block-4" class="copy-content p-3 font-mono text-xs leading-relaxed">Delegates account brief and meeting preparation requests to the Tegna Meeting Prep Agent. Use this subagent when users ask for account briefs, meeting prep, or account summaries for any account.</div>
+      </div>
 
       <figure class="my-4">
         <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/5a644e81-86a5-452b-8f44-1529a501438b.png" alt="Subagent description filled" class="w-full rounded-lg border border-border shadow-sm">
@@ -1314,18 +1694,18 @@ Three to five suggested talking points or questions, each tied to a specific fac
       <p><strong>Step 9.5</strong> — Configure the subagent details:</p>
       <p class="ml-4 text-gray-600">Click <strong>Next</strong>. On the details screen, fill in:</p>
       <ul class="ml-4 list-none space-y-1 mt-2">
-        <li>• <strong>Name:</strong> <code class="bg-gray-100 px-1 rounded">TEGNA Account Briefs</code></li>
+        <li>• <strong>Name:</strong> <code id="cv-9-5-name" class="bg-gray-100 px-1 rounded">TEGNA Account Briefs</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-name" title="Copy" aria-label="Copy name"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
         <li>• <strong>Classification Description:</strong> Same description as step 9.4 (auto-filled)</li>
-        <li>• <strong>Scope:</strong> <code class="bg-gray-100 px-1 rounded text-xs">Your job is only to delegate account brief and meeting preparation requests to the Tegna Meeting Prep Agent. When a user asks for an account brief, meeting prep, or account summary, delegate the request to the Tegna Meeting Prep Agent which will generate the comprehensive TEGNA-specific brief.</code></li>
+        <li>• <strong>Scope:</strong> <code id="cv-9-5-scope" class="bg-gray-100 px-1 rounded text-xs">Your job is only to delegate account brief and meeting preparation requests to the Tegna Meeting Prep Agent. When a user asks for an account brief, meeting prep, or account summary, delegate the request to the Tegna Meeting Prep Agent which will generate the comprehensive TEGNA-specific brief.</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-scope" title="Copy" aria-label="Copy scope"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
         <li>• <strong>Instructions:</strong> Add 4 instructions:
           <ol class="ml-4 mt-1 space-y-0.5 list-decimal list-inside text-gray-600">
-            <li>Generate a detailed account brief based on TEGNA-specific requirements</li>
-            <li>Include sections: Where Things Stand, Spend Picture, Who You're Talking To, Open Business, Watch Out For, and Conversation Openers</li>
-            <li>Ensure all information is accurate and relevant to the meeting preparation request</li>
-            <li>Ask clarifying questions if the input is insufficient</li>
+            <li><code id="cv-9-5-inst-1" class="bg-gray-100 px-1 rounded">Generate a detailed account brief based on TEGNA-specific requirements</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-inst-1" title="Copy" aria-label="Copy instruction 1"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
+            <li><code id="cv-9-5-inst-2" class="bg-gray-100 px-1 rounded">Include sections: Where Things Stand, Spend Picture, Who You're Talking To, Open Business, Watch Out For, and Conversation Openers</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-inst-2" title="Copy" aria-label="Copy instruction 2"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
+            <li><code id="cv-9-5-inst-3" class="bg-gray-100 px-1 rounded">Ensure all information is accurate and relevant to the meeting preparation request</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-inst-3" title="Copy" aria-label="Copy instruction 3"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
+            <li><code id="cv-9-5-inst-4" class="bg-gray-100 px-1 rounded">Ask clarifying questions if the input is insufficient</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-inst-4" title="Copy" aria-label="Copy instruction 4"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
           </ol>
         </li>
-        <li>• <strong>Example User Input:</strong> <code class="bg-gray-100 px-1 rounded">Give me an account brief for Acme Corp</code></li>
+        <li>• <strong>Example User Input:</strong> <code id="cv-9-5-example-user-input" class="bg-gray-100 px-1 rounded">Give me an account brief for Acme Corp</code><button type="button" class="copy-icon" onclick="copyValue(this)" data-copy-target="cv-9-5-example-user-input" title="Copy" aria-label="Copy example user input"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button></li>
       </ul>
 
       <figure class="my-4">
@@ -1369,7 +1749,10 @@ Three to five suggested talking points or questions, each tied to a specific fac
 
       <p><strong>Step 9.8</strong> — Test in the CoWorker "Ask" experience:</p>
       <p class="ml-4 text-gray-600">Click <strong>"Ask"</strong> next to the search bar in the global header (or navigate to the "Ask" tab). Type a test query:</p>
-      <div class="bg-gray-50 border border-gray-200 rounded p-3 text-sm font-mono ml-4">Give me an account brief for Acme Corp</div>
+      <div class="copyable relative bg-gray-50 border border-gray-200 rounded ml-4">
+        <button type="button" class="copy-icon copy-icon-block" onclick="copyValue(this)" data-copy-target="cv-block-5" title="Copy" aria-label="Copy text"><svg class="ci-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="8" height="8" rx="1.6"/><path d="M4 10.5H3.6A1.6 1.6 0 0 1 2 8.9V3.6A1.6 1.6 0 0 1 3.6 2h5.3A1.6 1.6 0 0 1 10.5 3.6V4"/></svg><svg class="ci-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg></button>
+        <div id="cv-block-5" class="copy-content p-3 text-sm font-mono">Give me an account brief for Acme Corp</div>
+      </div>
 
       <figure class="my-4">
         <img src="https://assets.meshmesh.io/tenants/org_01KDY098Y468ZK9Q6DFDZXJBG6/task-assets/875517b8-d4c0-43a5-98a0-a97baa765db9/25e72c88-7cec-407e-811e-ebf7eddb4762.png" alt="CoWorker Ask query" class="w-full rounded-lg border border-border shadow-sm">
@@ -1578,8 +1961,185 @@ Three to five suggested talking points or questions, each tied to a specific fac
   <p class="opacity-50 text-xs mt-1">Built &amp; verified on a live Salesforce org • All screenshots from actual setup walkthrough</p>
 </footer>
 
+<script>
+/* --- copy support (added) ---
+   Every Copy control in this guide is an icon that calls copyValue(this).
+
+   The guide is rendered inside a srcdoc iframe, which sits on an opaque
+   origin: navigator.clipboard is refused there, and the guide's original
+   handler called writeText(...).then(...) with no rejection path, so a click
+   silently did nothing. This implementation falls back through every
+   available route and, as a last resort, selects the text. */
+(function(){
+  var PARENT_TIMEOUT = 600;
+
+  // 1. async clipboard API - works when the page is served over https
+  function viaAsyncApi(text){
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      return Promise.reject(new Error('no async clipboard'));
+    }
+    return navigator.clipboard.writeText(text);
+  }
+
+  // 2. hidden textarea + execCommand, in this document
+  function viaExecCommand(text){
+    return new Promise(function(resolve, reject){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { ta.setSelectionRange(0, ta.value.length); } catch(e){}
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+      ta.remove();
+      ok ? resolve('execCommand') : reject(new Error('execCommand returned false'));
+    });
+  }
+
+  // 3. hand off to the shell page, which is on a real origin and still holds
+  //    the click's transient user activation
+  function viaParent(text){
+    if (window.parent === window) return Promise.reject(new Error('no parent'));
+    return new Promise(function(resolve, reject){
+      var id = 'copy-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+      var timer = setTimeout(function(){
+        window.removeEventListener('message', onMsg);
+        reject(new Error('parent timed out'));
+      }, PARENT_TIMEOUT);
+      function onMsg(e){
+        var d = e.data;
+        if (!d || d.type !== 'copy-result' || d.id !== id) return;
+        clearTimeout(timer);
+        window.removeEventListener('message', onMsg);
+        d.ok ? resolve('parent') : reject(new Error('parent could not copy'));
+      }
+      window.addEventListener('message', onMsg);
+      window.parent.postMessage({ type:'copy-request', id:id, text:text }, '*');
+    });
+  }
+
+  function cascade(text){
+    return viaAsyncApi(text)
+      .then(function(){ return 'asyncApi'; })
+      .catch(function(){ return viaExecCommand(text); })
+      .catch(function(){ return viaParent(text); });
+  }
+
+  // Read an element's text without pulling in the icon button that sits
+  // inside it, and normalise whitespace so values wrapped across source
+  // lines copy as a single clean line.
+  function textOf(el){
+    var c = el.cloneNode(true);
+    c.querySelectorAll('.copy-icon').forEach(function(b){ b.remove(); });
+    return (c.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
+  // Multi-line paste blocks must keep their line breaks; inline values are
+  // single-line and get whitespace collapsed.
+  function readTarget(el){
+    if (el.classList.contains('copy-content')) {
+      return (el.innerText || el.textContent || '').replace(/ /g, ' ').trim();
+    }
+    return textOf(el);
+  }
+
+  window.copyValue = function(btn){
+    var sel = btn.getAttribute('data-copy-target');
+    var el  = sel && document.getElementById(sel);
+    if (!el) return;
+
+    var text = readTarget(el);
+    if (!text) return;
+
+    var restore;
+    function flash(cls, label){
+      btn.classList.add(cls);
+      var prev = btn.getAttribute('data-title') || 'Copy';
+      btn.setAttribute('data-title', prev);
+      btn.setAttribute('title', label);
+      clearTimeout(restore);
+      restore = setTimeout(function(){
+        btn.classList.remove(cls);
+        btn.setAttribute('title', prev);
+      }, 1600);
+    }
+
+    cascade(text).then(function(){
+      flash('copied', 'Copied');
+    }, function(){
+      flash('failed', 'Press ⌘C to copy');
+      try {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = document.getSelection(); s.removeAllRanges(); s.addRange(r);
+      } catch(e){}
+    });
+  };
+})();
+</script>
+<script>
+/* --- in-page navigation fix (added) ---
+   This document is rendered inside a srcdoc iframe, which has no base URL of
+   its own: href="#phase5" resolves against the PARENT document, so a plain
+   click navigates the frame to the combined file and nests the whole shell.
+   Intercept hash links and scroll manually instead. Smooth scrolling is also
+   unreliable inside a frame (Chrome skips the animation in some cases), so a
+   watchdog forces an instant jump if the smooth scroll never moves. */
+(function(){
+  function findTarget(id){
+    if (!id) return null;
+    return document.getElementById(id) ||
+           document.getElementsByName(id)[0] || null;
+  }
+
+  function absTop(el){
+    return Math.round(el.getBoundingClientRect().top + window.pageYOffset);
+  }
+
+  function goTo(el){
+    var start = window.pageYOffset;
+    var target = absTop(el);
+    if (Math.abs(target - start) < 2) return;   // already there
+
+    try { el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    catch (e) { el.scrollIntoView(true); }
+
+    // If the smooth scroll never started, jump.
+    setTimeout(function(){
+      if (Math.abs(window.pageYOffset - start) < 2) {
+        window.scrollTo(0, absTop(el));
+      }
+    }, 250);
+  }
+
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') return;
+
+    e.preventDefault();
+    var id = href.slice(1);
+    try { id = decodeURIComponent(id); } catch (err) {}
+
+    if (!id) { window.scrollTo(0, 0); return; }
+    var t = findTarget(id);
+    if (t) goTo(t);
+  }, true);
+
+  // Send real outbound links to a new tab rather than replacing this frame.
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h = a.getAttribute('href') || '';
+    if (/^(https?:)?\/\//i.test(h) && !a.target) {
+      a.target = '_blank';
+      a.rel = (a.rel ? a.rel + ' ' : '') + 'noopener';
+    }
+  });
+})();
+</script>
 </body>
-</html></template><iframe class="frame" title="Tegna Workshop Reference Guide"></iframe></div>
+</html></template><iframe class="frame" title="Tegna Workshop Reference Guide" allow="clipboard-write; clipboard-read"></iframe></div>
 </div>
 <script>
 (function(){
@@ -1588,8 +2148,7 @@ Three to five suggested talking points or questions, each tied to a specific fac
   function hydrate(pane){
     var tpl = pane.querySelector('template.src');
     if(!tpl) return;
-    var frame = pane.querySelector('iframe.frame');
-    frame.srcdoc = tpl.innerHTML;
+    pane.querySelector('iframe.frame').srcdoc = tpl.innerHTML;
     tpl.remove();
   }
   function show(i){
@@ -1614,6 +2173,42 @@ Three to five suggested talking points or questions, each tied to a specific fac
   });
   var start = parseInt((location.hash||'').slice(1),10);
   show(Number.isInteger(start) && start>=0 && start<tabs.length ? start : 0);
+
+  // The cover page's cards ask to switch tabs.
+  window.addEventListener('message', function(e){
+    var d = e.data;
+    if(!d || d.type !== 'go-tab') return;
+    var i = parseInt(d.index, 10);
+    if(Number.isInteger(i) && i >= 0 && i < tabs.length){ tabs[i].focus(); show(i); }
+  });
+
+  // Copy fallback for the sandboxed guide frames. A srcdoc iframe sits on an
+  // opaque origin, so its own clipboard access is often refused; this shell is
+  // a real origin and still holds the click's transient user activation.
+  window.addEventListener('message', function(e){
+    var d = e.data;
+    if(!d || d.type !== 'copy-request' || typeof d.text !== 'string') return;
+    var src = e.source;
+    function reply(ok){ try{ src.postMessage({type:'copy-result', id:d.id, ok:ok}, '*'); }catch(err){} }
+    function execFallback(){
+      var ta = document.createElement('textarea');
+      ta.value = d.text;
+      ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { ta.setSelectionRange(0, ta.value.length); } catch(err){}
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(err) { ok = false; }
+      ta.remove();
+      reply(ok);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(d.text).then(function(){ reply(true); }, execFallback);
+    } else {
+      execFallback();
+    }
+  });
 })();
 </script>
 </body>
